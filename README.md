@@ -1,6 +1,6 @@
-### Hypnos project for Studi ECF
+# Hypnos project for Studi ECF
 
-# How to run localy
+### How to run localy
 run `git clone https://github.com/Arciesis/Hypnos.git`
 to create a local repository
 
