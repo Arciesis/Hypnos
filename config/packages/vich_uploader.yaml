@@ -1,0 +1,24 @@
+vich_uploader:
+    db_driver: orm
+    metadata:
+            type: attribute # set to use PHP8 attributes instead of annotations
+
+    mappings:
+        suite_front_images:
+            uri_prefix: '%suite_images%' # See services.yaml
+            upload_destination: '%kernel.project_dir%/public%suite_images%' # See services.yaml
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            #Default config
+            inject_on_load: flase
+            delete_on_update: true
+            delete_on_remove: true
+
+        suite_gallery_images:
+            uri_prefix: '%suite_gallery_images%' # See services.yaml
+            upload_destination: '%kernel.project_dir%/public%suite_gallery_images%' # See services.yaml
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            #Default config
+            inject_on_load: flase
+            delete_on_update: true
+            delete_on_remove: true
+
