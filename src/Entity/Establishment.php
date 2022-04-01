@@ -92,7 +92,7 @@ class Establishment
     }
 
     /**
-     * @return Collection<int, Suite>
+     * @return Collection<int, Suite> The collection of Suites
      */
     public function getSuites(): Collection
     {

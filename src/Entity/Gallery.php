@@ -8,7 +8,7 @@ use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: GalleryRepository::class)]
 #[Vich\Uploadable]
 class Gallery
@@ -19,6 +19,7 @@ class Gallery
     private int $id;
 
     #[Vich\UploadableField(mapping: 'suite_gallery_images', fileNameProperty: 'imageName', size: 'imageSize', mimeType: 'image/jpeg|image/png')]
+    #[Assert\File(mimeTypes: ['image/jpeg', 'image/png'],mimeTypesMessage: 'Le type de l\'image n\'est pas reconnu (Jpeg, JPG, PNG)')]
     private ?File $imageFile;
 
     #[ORM\Column(type: 'string', nullable: true)]

@@ -13,22 +13,22 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    protected $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private string $email;
+    protected string $email;
 
     #[ORM\Column(type: 'json')]
-    private array $roles = [];
+    protected array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    private string $password;
+    protected string $password;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $firstname;
+    protected string $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $lastname;
+    protected string $lastname;
 
     public function getId(): ?int
     {

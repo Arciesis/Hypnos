@@ -19,7 +19,7 @@ class Customer extends User
     }
 
     /**
-     * @return Collection<int, Booking>
+     * @return Collection<int, Booking> the collection of Bookings
      */
     public function getBookings(): Collection
     {

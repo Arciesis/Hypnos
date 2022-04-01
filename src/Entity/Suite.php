@@ -10,14 +10,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[
-    ORM\Entity(repositoryClass: SuiteRepository::class)
-]
-#[
-    Vich\Uploadable
-]
+
+#[ORM\Entity(repositoryClass: SuiteRepository::class)]
+#[Vich\Uploadable]
 class Suite
 {
     #[ORM\Id]
@@ -34,7 +32,8 @@ class Suite
     #[ORM\Column(type: 'string', length: 255)]
     private string $linkToBookingCom;
 
-    #[Vich\UploadableField(mapping: 'suite_front_images', fileNameProperty: 'frontImageName', size: 'frontImageSize', mimeType: 'image/jpeg|image/png')]
+    #[Vich\UploadableField(mapping: 'suite_front_images', fileNameProperty: 'frontImageName', size: 'frontImageSize')]
+    #[Assert\File(mimeTypes: ['image/jpeg', 'image/png'],mimeTypesMessage: 'Le type de l\'image n\'est pas reconnu (Jpeg, JPG, PNG)')]
     private ?File $frontImageFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
