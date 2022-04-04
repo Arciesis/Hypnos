@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: EstablishmentRepository::class)]
 class Establishment
 {
@@ -22,16 +23,16 @@ class Establishment
     private string $city;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $adress;
+    private string $address;
 
     #[ORM\Column(type: 'text', length: 255)]
     private string $description;
 
     #[ORM\OneToMany(mappedBy: 'establishment', targetEntity: Suite::class)]
-    private ?ArrayCollection $suites;
+    private $suites;
 
     #[ORM\OneToOne(mappedBy: 'establishment', targetEntity: Manager::class, cascade: ['persist', 'remove'])]
-    private $manager;
+    private ?Manager $manager;
 
     public function __construct()
     {
@@ -67,14 +68,14 @@ class Establishment
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(string $adress): self
+    public function setAddress(string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -126,7 +127,7 @@ class Establishment
         return $this->manager;
     }
 
-    public function setManager(Manager $manager): self
+    public function setManager(?Manager $manager): self
     {
         // set the owning side of the relation if necessary
         if ($manager->getEstablishment() !== $this) {
@@ -136,5 +137,10 @@ class Establishment
         $this->manager = $manager;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
-class Admin extends User
-{
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
+class Admin implements UserInterface, PasswordAuthenticatedUserInterface
+{
+    use UserTrait;
 }

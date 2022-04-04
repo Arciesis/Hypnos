@@ -49,6 +49,7 @@ class Suite
     private ?ArrayCollection $gallery;
 
     #[ORM\ManyToOne(targetEntity: Establishment::class, inversedBy: 'suites')]
+    #[ORM\JoinColumn(nullable: true)]
     private $establishment;
 
     public function __construct()
@@ -107,7 +108,7 @@ class Suite
         return $this;
     }
 
-    public function getFrontImageFile(?File $frintImageFile = null): File
+    public function getFrontImageFile(?File $frontImageFile = null): File
     {
         return $this->frontImageFile;
     }
