@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 Trait UserTrait
 {
@@ -15,6 +15,7 @@ Trait UserTrait
     protected $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\Email]
     protected string $email;
 
     #[ORM\Column(type: 'json')]
