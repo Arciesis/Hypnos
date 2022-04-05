@@ -52,6 +52,10 @@ class Suite
     #[ORM\JoinColumn(nullable: true)]
     private $establishment;
 
+    #[ORM\Column(type: 'integer')]
+    #[Assert\Positive]
+    private $price;
+
     public function __construct()
     {
         $this->gallery = new ArrayCollection();
@@ -173,6 +177,18 @@ class Suite
     public function setEstablishment(?Establishment $establishment): self
     {
         $this->establishment = $establishment;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
