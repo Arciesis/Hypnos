@@ -1,0 +1,10 @@
+{# TODO js class #}
+{% include '@EasyAdmin/crud/detail.html.twig' %}
+<div class="">
+    {% for image in suite.instance.gallery.images %}
+        {# TODO js class #}
+        <div id="ea-lightbox-{{ image.id }}" class="">
+            <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}">
+        </div>
+    {% endfor %}
+</div>
