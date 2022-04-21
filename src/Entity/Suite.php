@@ -9,9 +9,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 
 #[ORM\Entity(repositoryClass: SuiteRepository::class)]
@@ -33,7 +33,10 @@ class Suite
     private string $linkToBookingCom;
 
     #[Vich\UploadableField(mapping: 'suite_front_images', fileNameProperty: 'frontImageName', size: 'frontImageSize')]
-    #[Assert\File(mimeTypes: ['image/jpeg', 'image/png'],mimeTypesMessage: 'Le type de l\'image n\'est pas reconnu (Jpeg, JPG, PNG)')]
+    #[Assert\File(mimeTypes: [
+        'image/jpeg',
+        'image/png',
+    ], mimeTypesMessage: 'Le type de l\'image n\'est pas reconnu (Jpeg, JPG, PNG)')]
     private ?File $frontImageFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -45,21 +48,16 @@ class Suite
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Gallery::class)]
-    private ?ArrayCollection $gallery;
-
     #[ORM\ManyToOne(targetEntity: Establishment::class, inversedBy: 'suites')]
-    #[ORM\JoinColumn(nullable: true)]
-    private $establishment;
+    #[ORM\JoinColumn()]
+    private ?Establishment $establishment;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Positive]
-    private $price;
+    private int $price;
 
-    public function __construct()
-    {
-        $this->gallery = new ArrayCollection();
-    }
+    #[ORM\OneToOne(mappedBy: 'suite', targetEntity: Gallery::class, cascade: ['persist', 'remove'])]
+    private ?Gallery $gallery;
 
     public function getId(): ?int
     {
@@ -109,10 +107,11 @@ class Suite
         if (null !== $frontImageFile) {
             $this->updatedAt = new DateTimeImmutable();
         }
+
         return $this;
     }
 
-    public function getFrontImageFile(?File $frontImageFile = null): File
+    public function getFrontImageFile(?File $frontImageFile = null): ?File
     {
         return $this->frontImageFile;
     }
@@ -120,6 +119,7 @@ class Suite
     public function setFrontImageName(?string $frontImageName): self
     {
         $this->frontImageName = $frontImageName;
+
         return $this;
     }
 
@@ -131,42 +131,13 @@ class Suite
     public function setFrontImageSize(?int $frontImageSize): self
     {
         $this->frontImageSize = $frontImageSize;
+
         return $this;
     }
 
     public function getFrontImageSize(): ?int
     {
         return $this->frontImageSize;
-    }
-
-    /**
-     * @return Collection<int, Gallery>
-     */
-    public function getGallery(): Collection
-    {
-        return $this->gallery;
-    }
-
-    public function addGallery(Gallery $gallery): self
-    {
-        if (!$this->gallery->contains($gallery)) {
-            $this->gallery[] = $gallery;
-            $gallery->setSuite($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGallery(Gallery $gallery): self
-    {
-        if ($this->gallery->removeElement($gallery)) {
-            // set the owning side to null (unless already changed)
-            if ($gallery->getSuite() === $this) {
-                $gallery->setSuite(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getEstablishment(): ?Establishment
@@ -191,5 +162,39 @@ class Suite
         $this->price = $price;
 
         return $this;
+    }
+
+    public function getGallery(): ?Gallery
+    {
+        return $this->gallery;
+    }
+
+    public function setGallery(Gallery|array|null $uploadable): self
+    {
+        // dd($gallery);
+        if (is_array($uploadable)) {
+            $gallery = new Gallery();
+            $this->gallery = $gallery;
+            foreach ($uploadable as $image) {
+                // dd($image);
+                $gallery->addImage($image);
+                if ($gallery->getSuite() !== $this) {
+                    $gallery->setSuite($this);
+                }
+            }
+        }
+
+        // set the owning side of the relation if necessary
+        if ($uploadable instanceof Gallery) {
+            $uploadable->setSuite($this);
+            $this->gallery = $uploadable;
+        }
+
+        return $this;
+    }
+
+    public function __toString(): String
+    {
+        return $this->getTitle();
     }
 }

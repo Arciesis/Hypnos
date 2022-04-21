@@ -9,16 +9,16 @@ vich_uploader:
             upload_destination: '%kernel.project_dir%/public%suite_images%' # See services.yaml
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             #Default config
-            inject_on_load: flase
+            inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
 
-        suite_gallery_images:
-            uri_prefix: '%suite_gallery_images%' # See services.yaml
-            upload_destination: '%kernel.project_dir%/public%suite_gallery_images%' # See services.yaml
+        images:
+            uri_prefix: '%images%' # See services.yaml
+            upload_destination: '%kernel.project_dir%/public%images%' # See services.yaml
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             #Default config
-            inject_on_load: flase
+            inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
 

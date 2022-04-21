@@ -59,16 +59,6 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
                 throw new UserNotFoundException('No user has been found');
             }
         }
-
-
-
-
-
-        // Load a User object from your data source or throw UserNotFoundException.
-        // The $identifier argument may not actually be a username:
-        // it is whatever value is being returned by the getUserIdentifier()
-        // method in your User class.
-        // throw new \Exception('TODO: fill in loadUserByIdentifier() inside '.__FILE__);
     }
 
     /**

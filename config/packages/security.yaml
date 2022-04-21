@@ -3,14 +3,6 @@ security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-        # App\Entity\User:
-        #     algorithm: auto
-#        App\Entity\Admin:
-#            algorithm: auto
-#        App\Entity\Manager:
-#            algorithm: auto
-#        App\Entity\Customer:
-#            algorithm: auto
 
 
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
@@ -51,12 +43,15 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER]
+        ROLE_MANAGER: [ROLE_USER]
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/dashboard/admin, roles: ROLE_ADMIN }
-        # - { path: ^/dashboard/manager, roles: ROLE_MANAGER }
-        # - { path: ^/, roles: ROLE_USER }
+        - { path: ^/dashboard/admin, roles: ROLE_ADMIN }
+        - { path: ^/dashboard/manager, roles: ROLE_MANAGER }
+        - { path: /home, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
 when@test:
     security:

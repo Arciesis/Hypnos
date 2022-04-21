@@ -19,11 +19,10 @@ class SecurityController extends AbstractController
             } elseif (in_array('ROLE_MANAGER', $user->getRoles())) {
                 return $this->redirectToRoute('manager_dashboard');
             } elseif (in_array('ROLE_USER', $user->getRoles())) {
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('/');
             }
             // TODO modify the routes here to match the final app routing
         }
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user

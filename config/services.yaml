@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     suite_images: /uploads/suite
-    suite_gallery_images: /uploads/suite/gallery
+    images: /uploads/suite/gallery
 
 services:
     # default configuration for services in *this* file
